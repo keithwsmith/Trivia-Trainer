@@ -1,0 +1,13 @@
+services:
+  trivia-trainer:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - trivia-data:/app/data
+    environment:
+      - ADMIN_TOKEN=${ADMIN_TOKEN:-}
+    restart: unless-stopped
+
+volumes:
+  trivia-data:

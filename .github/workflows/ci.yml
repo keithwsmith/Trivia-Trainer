@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Byte-compile check
+        run: python -m py_compile main.py config.py api/app.py db/*.py sources/*.py generation/*.py study/*.py
+
+      - name: API smoke test
+        run: |
+          python - << 'EOF'
+          from fastapi.testclient import TestClient
+          from api.app import app
+
+          with TestClient(app) as client:
+              r = client.get("/api/health")
+              assert r.status_code == 200, r.text
+
+              r = client.get("/api/subjects")
+              assert r.status_code == 200, r.text
+
+              r = client.get("/")
+              assert r.status_code == 200, r.text
+
+              print("Smoke test passed.")
+          EOF

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Trivia Trainer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">TT</span>
+      <span class="brand-name">Trivia&nbsp;Trainer</span>
+    </div>
+    <button id="adminToggle" class="admin-toggle" title="Admin panel">⚙</button>
+  </header>
+
+  <main id="app" class="app">
+    <!-- Views are shown/hidden by app.js -->
+
+    <section id="homeView" class="view">
+      <h1 class="page-title">Pick a subject</h1>
+      <p class="page-sub">Every clue is pulled from Open Trivia DB — nothing scraped, nothing AI-generated.</p>
+
+      <div id="subjectGrid" class="tile-grid"></div>
+
+      <div id="focusSection" class="focus-section" hidden>
+        <h2 class="section-eyebrow">Focus areas</h2>
+        <ul id="focusList" class="focus-list"></ul>
+      </div>
+    </section>
+
+    <section id="quizView" class="view" hidden>
+      <div class="quiz-header">
+        <button id="backButton" class="link-button">&larr; Subjects</button>
+        <span id="quizProgress" class="quiz-progress"></span>
+        <span id="quizScore" class="quiz-score"></span>
+      </div>
+
+      <div id="clueTile" class="clue-tile">
+        <div class="clue-tab">
+          <span id="clueCategory" class="clue-category"></span>
+          <span id="clueDifficulty" class="clue-difficulty"></span>
+        </div>
+        <p id="clueText" class="clue-text"></p>
+
+        <form id="answerForm" class="answer-form">
+          <input id="answerInput" class="answer-input" type="text"
+                 placeholder="What is...?" autocomplete="off" autocapitalize="off" />
+          <button type="submit" class="answer-submit">Answer</button>
+        </form>
+
+        <div id="revealPanel" class="reveal-panel" hidden>
+          <p id="revealVerdict" class="reveal-verdict"></p>
+          <p id="revealCorrect" class="reveal-correct"></p>
+          <button id="nextButton" class="next-button">Next clue &rarr;</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="emptyView" class="view" hidden>
+      <h1 class="page-title">No clues yet</h1>
+      <p class="page-sub">This subject doesn't have any clues loaded. Use the admin panel to pull some in.</p>
+      <button id="emptyBackButton" class="link-button">&larr; Subjects</button>
+    </section>
+
+  </main>
+
+  <aside id="adminDrawer" class="admin-drawer" hidden>
+    <div class="admin-drawer-inner">
+      <h2 class="section-eyebrow">Admin</h2>
+
+      <label class="field-label" for="adminToken">Admin token</label>
+      <input id="adminToken" class="field-input" type="password" placeholder="ADMIN_TOKEN" />
+
+      <hr class="admin-rule" />
+
+      <h3 class="admin-subhead">Pull from Open Trivia DB</h3>
+      <label class="field-label" for="pullSubject">Subject name</label>
+      <input id="pullSubject" class="field-input" type="text" placeholder="e.g. History" />
+      <label class="field-label" for="pullCategoryId">opentdb category id (optional)</label>
+      <input id="pullCategoryId" class="field-input" type="number" placeholder="e.g. 23" />
+      <label class="field-label" for="pullCount">Count</label>
+      <input id="pullCount" class="field-input" type="number" value="50" />
+      <button id="pullButton" class="admin-action">Pull questions</button>
+
+      <p id="adminStatus" class="admin-status" role="status"></p>
+    </div>
+  </aside>
+
+  <script src="/app.js"></script>
+</body>
+</html>
